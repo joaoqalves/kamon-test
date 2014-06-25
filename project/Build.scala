@@ -4,6 +4,7 @@ import Keys._
 object Build extends Build {
   import BuildSettings._
   import Dependencies._
+  import AspectJ._
 
   lazy val root = Project(id = "root",
                           base = file("."))
@@ -14,6 +15,7 @@ object Build extends Build {
                               base = file("myEngine"))
     .settings(basicSettings: _*)
     .settings(sprayRunSettings: _*)
+    .settings(aspectJSettings: _*)
     .settings(libraryDependencies ++=
       asCompile(logstashEncoder) ++
       asCompile(slf4j) ++
