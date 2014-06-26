@@ -3,7 +3,7 @@ package net.joaoqalves
 import akka.actor.{ActorLogging, Actor, Props, ActorSystem}
 import kamon.trace.TraceRecorder
 import kamon.metrics.ActorMetrics.ActorMetricRecorder
-import kamon.metrics.{ActorMetrics, Metrics}
+import kamon.metrics.{TraceMetrics, ActorMetrics, Metrics}
 import kamon.Kamon
 import net.joaoqalves.rest.InitActor
 
@@ -14,6 +14,8 @@ trait EngineApp {
 
     val listener = system.actorOf(Props[KamonListenerActor], "kamon-listener")
     Kamon(Metrics).subscribe(ActorMetrics, "*", listener, permanently = true)
+    Kamon(Metrics).subscribe(TraceMetrics, "*", listener, permanently = true)
+  
     def doInit() = TraceRecorder.withNewTraceContext("sample-trace") {
       initActor ! InitActor.Init
     }
